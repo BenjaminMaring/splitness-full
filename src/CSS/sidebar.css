@@ -1,0 +1,25 @@
+
+.sidebar {
+    width: 200px;
+    height: calc(100vh - 70px);
+    box-shadow: 2px 0px 10px 2px rgba(0, 0, 0, 0.13);
+    z-index: -1;
+  }
+
+.dashboard-wrapper {
+        width: calc(100vw - 220px);
+    }
+  
+  /* Media query for small screens (e.g., screens less than 768 pixels wide) */
+  @media only screen and (max-width: 999px) {
+    .sidebar {
+      display: none;
+    }
+    .dashboard-wrapper {
+        width: calc(100vw);
+    }
+  }
+
+.bor {
+    border: solid 2px red;
+}

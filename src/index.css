@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  padding: 0px;
+  margin: 0px;
+  color: #0F0F0F
+}
+
+body {
+  background-color: #F4F4F4;
+}
+
+
+.custom-input {
+  width: 100%;
+  background: transparent;
+  border-bottom: 2px solid black;
+  padding: 0 50px;
+  border-radius: 0px;
+}
+
+input:focus {
+  outline: 0 ;
+}
+
+.link {
+  color: #07a0c3;
+}
+
+.header-shadow {
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.527);
+}
+
+.btn-carousel {
+  display: flex;
+  overflow: hidden;
+}
+
+.btn-track {
+  position: relative;
+  display: flex; 
+  align-items: center;
+}
+
+.btn-pos-0 {
+  transform: translate(0px, 0px);
+}
+.btn-pos-1 {
+  transform: translate(-180px, 0px);
+  transition: transform 300ms linear;
+}
+.btn-pos-2 {
+  transform: translate(-360px, 0px);
+  transition: transform 300ms linear;
+}
+.btn-pos-3 {
+  transform: translate(-540px, 0px);
+  transition: transform 300ms linear;
+}
+.btn-pos-4 {
+  transform: translate(-720px, 0px);
+  transition: transform 300ms linear;
+}
+
+.icon-bg {
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.25);
+  width: 70px;
+  height: 70px;
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-shadow {
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.35);
+}
+
+

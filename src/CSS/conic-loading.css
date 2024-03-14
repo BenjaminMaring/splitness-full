@@ -1,0 +1,65 @@
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.dots {
+    position: absolute;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    bottom: 0px;
+    left: 10px;
+  }
+  
+.dot {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    margin: 5px;
+    border-radius: 50%;
+  }
+
+.dot::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background-color: rgb(39, 39, 39);
+    position: absolute;
+    border-radius: 50%;
+    inset: calc(50% - 5px);
+  }
+
+.blue-dot {
+    background: conic-gradient(#04c2ed var(--angle), transparent calc(var(--angle)));
+}
+.red-dot {
+    background: conic-gradient(#f45351 var(--angle), transparent calc(var(--angle)));
+}
+.yellow-dot {
+    background: conic-gradient(#f4cb06 var(--angle), transparent calc(var(--angle)));
+}
+.green-dot {
+    background: conic-gradient(#66f025 var(--angle), transparent calc(var(--angle)));
+}
+
+
+.conic-first-load {
+    animation: loading 7500ms linear;
+  }
+  
+  .conic-loading {
+    animation: loading 5s linear;
+  }
+  
+  
+  @keyframes loading {
+    0% {
+      --angle: -1deg
+    }
+  
+    100% {
+    --angle: 360deg
+    }
+  }

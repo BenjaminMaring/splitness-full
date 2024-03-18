@@ -1,4 +1,5 @@
 import { BarChart } from '@mui/x-charts';
+import { Link } from 'react-router-dom';
 
 
 export default function BmrChart() {

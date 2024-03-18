@@ -1,14 +1,17 @@
 
 .sidebar {
-    width: 200px;
+    width: 190px;
     height: calc(100vh - 70px);
     box-shadow: 2px 0px 10px 2px rgba(0, 0, 0, 0.13);
-    z-index: -1;
   }
 
 .dashboard-wrapper {
         width: calc(100vw - 220px);
     }
+
+.dashboard-menu {
+  display: none;
+}
   
   /* Media query for small screens (e.g., screens less than 768 pixels wide) */
   @media only screen and (max-width: 999px) {
@@ -20,6 +23,15 @@
     }
   }
 
-.bor {
-    border: solid 2px red;
+.sidebar-link {
+  width: 100%;
+  margin: 10px;
+  padding: 2px;
+  text-decoration: underline 2px transparent;
+  transition: text-decoration 100ms linear;
+}
+
+.sidebar-link:hover {
+  text-decoration: underline 2px rgb(37, 37, 37);
+  transition: text-decoration 100ms ease;
 }

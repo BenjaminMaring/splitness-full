@@ -17,7 +17,8 @@ body {
   width: 100%;
   background: transparent;
   border-bottom: 2px solid black;
-  padding: 0 50px;
+  padding-left: 40px;
+  padding-right: 10px;
   border-radius: 0px;
 }
 

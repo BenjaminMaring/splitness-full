@@ -22,8 +22,32 @@ export default function Login() {
         setShowPassword(prev => !prev);
     }
 
-    const login = () => {
-        navigate("/Dashboard");
+    const login = async () => {
+        const response = await fetch(
+            'http://192.168.1.5:3300/signin',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "login": username,
+                    "password": password
+                })
+            }
+        )
+        const data = await response.json();
+
+        //if the credentials are correct, save the jwt token to a cookie that expires in a week
+        if (data.success === true) {
+            const date = new Date();
+            date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = "jwt=" + data.jwt + ";" + expires + ";path=/;secure";
+            navigate("/dashboard");
+        } else {
+            window.alert("invalid username or password");
+        }
     }
 
     return (
@@ -37,7 +61,7 @@ export default function Login() {
             <div>
                 <div className="flex flex-col items-center m-[20px] ">
                     <div className="relative w-[250px]">
-                        <svg className="absolute text-6xl left-[5px] bottom-[10px]" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><path strokeLinejoin="round" d="M4 18a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path><circle cx={12} cy={7} r={3}></circle></g></svg>
+                        <svg className="absolute text-5xl left-[5px] bottom-[10px]" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><path strokeLinejoin="round" d="M4 18a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path><circle cx={12} cy={7} r={3}></circle></g></svg>
                         <input
                             className="text-2xl m-[10px] text-text custom-input username"
                             placeholder="Username"
@@ -45,7 +69,7 @@ export default function Login() {
                             value={username}></input>
                     </div>
                     <div className="relative w-[250px]">
-                    <svg className="absolute text-5xl left-[10px] bottom-[10px]" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2a2 2 0 0 1-2 2m6 3V10H6v10zm0-12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10c0-1.11.89-2 2-2h1V6a5 5 0 0 1 5-5a5 5 0 0 1 5 5v2zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3"></path></svg>
+                    <svg className="absolute text-4xl left-[10px] bottom-[12px]" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2a2 2 0 0 1-2 2m6 3V10H6v10zm0-12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10c0-1.11.89-2 2-2h1V6a5 5 0 0 1 5-5a5 5 0 0 1 5 5v2zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3"></path></svg>
                         <input
                             className="text-2xl m-[10px] mt-[20px] custom-input"
                             placeholder="Password"

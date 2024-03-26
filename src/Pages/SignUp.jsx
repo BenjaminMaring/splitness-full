@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
     const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
 
@@ -12,14 +13,19 @@ export default function Login() {
     const navigate= useNavigate();
 
     const updateUsername = (e) => {
-        setUsername(e.target.value)
+        setUsername(e.target.value);
+    }
+
+    const updateEmail = (e) => {
+        setEmail(e.target.value);
     }
     const updatePassword = (e) => {
         if (!e.target.value) {
             setShowPassword(prev => !prev);
         }
-        setPassword(e.target.value)
+        setPassword(e.target.value);
     }
+
     const updateConfirm = (e) => {
         if (!e.target.value) {
             setShowConfirm(prev => !prev);
@@ -30,8 +36,58 @@ export default function Login() {
     const togglePasswordVisibility = () => {
         setShowPassword(prev => !prev);
     }
+
     const toggleConfirmVisibility = () => {
         setShowConfirm(prev => !prev);
+    }
+
+    const signup = async () => {
+        //form checks before making api call
+        if (!username) {
+            window.alert("Missing Username");
+            return;
+        } else if (username.length <= 4) {
+            window.alert("username must be at least 4 characters long")
+            return;
+        } else if (!email) {
+            window.alert("Missing Email");
+            return;
+        } else if (!password || password !== confirm ) {
+            window.alert("passwords do not match");
+            return;
+        }
+
+
+        const response = await fetch(
+            'http://192.168.1.5:3300/signup',
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "username": username,
+                    "email": email,
+                    "password": password
+                })
+            }
+        )
+        const data = await response.json();
+        if (data.success == false) {
+            console.log(data.err);
+        } else {
+            navigate("/dashboard");
+        }
+        //if the credentials are correct, save the jwt token to a cookie that expires in a week
+        // if (data.success === true) {
+        //     const date = new Date();
+        //     date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000));
+        //     const expires = "expires=" + date.toUTCString();
+        //     document.cookie = "jwt=" + data.jwt + ";" + expires + ";path=/;secure";
+        //     navigate("/dashboard");
+        // } else {
+        //     window.alert("invalid username or password");
+        // }
     }
 
     return (
@@ -44,15 +100,22 @@ export default function Login() {
             <div>
                 <div className="flex flex-col items-center m-[20px]">
                     <div className="relative w-[250px]">
-                        <svg className="absolute text-6xl left-[5px] bottom-[10px]" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><path strokeLinejoin="round" d="M4 18a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path><circle cx={12} cy={7} r={3}></circle></g></svg>
+                        <svg className="absolute text-5xl left-[5px] bottom-[10px]" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><path strokeLinejoin="round" d="M4 18a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path><circle cx={12} cy={7} r={3}></circle></g></svg>
                         <input
                             className="text-2xl m-[10px] text-text custom-input username"
                             placeholder="Username"
                             onChange={updateUsername}
                             value={username}></input>
                     </div>
+                    <div className="relative w-[250px] mt-[10px]">
+                    <svg className="absolute text-4xl left-[10px] bottom-[12px]" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="black" d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0l-8 5l-8-5zm0 12H4V8l8 5l8-5z"></path></svg>                        <input
+                            className="text-2xl m-[10px] text-text custom-input username"
+                            placeholder="Email"
+                            onChange={updateEmail}
+                            value={email}></input>
+                    </div>
                     <div className="relative w-[250px]">
-                        <svg className="absolute text-5xl left-[10px] bottom-[10px]" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2a2 2 0 0 1-2 2m6 3V10H6v10zm0-12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10c0-1.11.89-2 2-2h1V6a5 5 0 0 1 5-5a5 5 0 0 1 5 5v2zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3"></path></svg>
+                        <svg className="absolute text-4xl left-[10px] bottom-[12px]" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2a2 2 0 0 1-2 2m6 3V10H6v10zm0-12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10c0-1.11.89-2 2-2h1V6a5 5 0 0 1 5-5a5 5 0 0 1 5 5v2zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3"></path></svg>
                         <input
                             className="text-2xl m-[10px] mt-[20px] custom-input"
                             placeholder="Password"
@@ -66,7 +129,7 @@ export default function Login() {
                         }
                     </div>
                     <div className="relative w-[250px]">
-                        <svg className="absolute text-5xl left-[10px] bottom-[10px]" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2a2 2 0 0 1-2 2m6 3V10H6v10zm0-12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10c0-1.11.89-2 2-2h1V6a5 5 0 0 1 5-5a5 5 0 0 1 5 5v2zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3"></path></svg>
+                        <svg className="absolute text-4xl left-[10px] bottom-[12px]" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2a2 2 0 0 1-2 2m6 3V10H6v10zm0-12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10c0-1.11.89-2 2-2h1V6a5 5 0 0 1 5-5a5 5 0 0 1 5 5v2zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3"></path></svg>
                         <input
                             className="text-2xl m-[10px] mt-[20px] custom-input"
                             placeholder="Confirm"
@@ -81,7 +144,7 @@ export default function Login() {
                     </div>
                 </div>
                 <div className="flex flex-col items-center mb-[50px] ">
-                    <button className="bg-lightBlue text-3xl text-white w-[250px] p-[5px] ps-[10px] pe-[10px] mb-[10px] rounded">
+                    <button className="bg-lightBlue text-3xl text-white w-[250px] p-[5px] ps-[10px] pe-[10px] mb-[10px] rounded" onClick={signup}>
                         Create account
                     </button>
                     <p>Already have an account? Sign in <Link to="/" className="link">here</Link></p>

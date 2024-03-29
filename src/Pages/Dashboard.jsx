@@ -12,6 +12,8 @@ import BmrChart from "../Components/BmrChart";
 export default function Dashboard() {
     const [index, setIndex] = useState(7);
     const [recentWorkouts, setRecentWorkouts] = useState([]);
+
+    
     
     //use effect to call hellper function that retrieves info for recent workouts
     useEffect(() => {
@@ -29,7 +31,6 @@ export default function Dashboard() {
 
     const handleGetRecentWorkouts = async () => {
         const data = await getRecentWorkouts();
-        
         setRecentWorkouts(data);
     }
 

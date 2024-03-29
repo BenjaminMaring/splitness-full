@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
+import { setJwt } from "../ApiServices/jwtServices";
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -11,6 +12,7 @@ export default function Login() {
     const updateUsername = (e) => {
         setUsername(e.target.value);
     }
+
     const updatePassword = (e) => {
         if (!e.target.value) {
             setShowPassword(false);
@@ -38,17 +40,15 @@ export default function Login() {
         )
         const data = await response.json();
 
-        //if the credentials are correct, save the jwt token to a cookie that expires in a week
+        //if the credentials are correct, save the jwt token to local storage
         if (data.success === true) {
-            const date = new Date();
-            date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000));
-            const expires = "expires=" + date.toUTCString();
-            document.cookie = "jwt=" + data.jwt + ";" + expires + ";path=/;secure";
-            navigate("/dashboard");
+            setJwt(data.jwt);
+            navigate("/Dashboard")
         } else {
             window.alert("invalid username or password");
         }
     }
+
 
     return (
         <div className="w-[100%] h-[100vh] bg-background  flex flex-col flex-wrap items-center justify-evenly">
@@ -88,7 +88,8 @@ export default function Login() {
                     </div>
                 </div>
                 <div className="flex flex-col items-center mb-[50px]">
-                    <button className="bg-lightBlue text-3xl text-white w-[150px] p-[5px] ps-[10px] pe-[10px] mb-[10px] rounded" onClick={login}>
+                    <button className="bg-lightBlue text-3xl text-white w-[150px] p-[5px] ps-[10px] pe-[10px] mb-[10px] rounded" 
+                    onClick={login}>
                         Login
                     </button>
                     <p>Dont have an account? Create one <Link to="/SignUp" className="link">here</Link></p>

@@ -1,11 +1,26 @@
+import { useState, useEffect } from "react";
 import { useNavigate, Link, Outlet } from "react-router-dom"
 import MobileMenu from '../flowbite/MobileMenu'
+import { getJwt, clearJwt, decodeJwt } from "../ApiServices/jwtServices";
 
 export default function Dashboard() {
+    const [user_id, setUser_id] = useState(null);
+    const [username, setUsername] = useState(null);
     const navigate = useNavigate();
 
+    
+
+    //use effect to get user data
+    useEffect(() => {
+        const jwt = getJwt();
+        const userData = decodeJwt(jwt);
+        setUser_id(userData.user_id);
+        setUsername(userData.username);
+    }, [])
+
     const logout = () => {
-        navigate("/")
+        clearJwt();
+        navigate("/");
     }
 
     return (
@@ -30,7 +45,7 @@ export default function Dashboard() {
                             <Link to="/BMR Calculator" className="text-2xl sidebar-link">Excersize Tracker</Link>
                         </div>
                     </div>
-                   <Outlet />
+                   <Outlet context={user_id}/>
                 </div>
             </div>
         </div>

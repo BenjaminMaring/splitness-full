@@ -8,8 +8,6 @@ import Workouts from './Pages/Workouts'
 
 function App() {
   
-
-
   return (
     <div>
       <BrowserRouter >

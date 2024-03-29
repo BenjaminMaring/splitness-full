@@ -1,13 +1,22 @@
 import { useState, useEffect } from "react";
 import { workoutData } from '../tempData';
+import { useOutletContext } from "react-router-dom";
+import { getRecentWorkouts } from "../ApiServices/ApiCalls";
 import '../CSS/conic-loading.css'
 import '../CSS/background-gradients.css'
 import '../CSS/sidebar.css'
 import BmrChart from "../Components/BmrChart";
 
 
+
 export default function Dashboard() {
     const [index, setIndex] = useState(7);
+    const [recentWorkouts, setRecentWorkouts] = useState([]);
+    
+    //use effect to call hellper function that retrieves info for recent workouts
+    useEffect(() => {
+        handleGetRecentWorkouts();
+    }, [])
 
     // timing function for button slider
     useEffect(() => {
@@ -18,7 +27,13 @@ export default function Dashboard() {
         return () => clearTimeout(timer);
     }, [index]);
 
+    const handleGetRecentWorkouts = async () => {
+        const data = await getRecentWorkouts();
+        
+        setRecentWorkouts(data);
+    }
 
+    //this changes the state of the button slider to go to a specific button on the track
     const goToIndex = (num) => {
         setIndex(num);
     }

@@ -2,7 +2,7 @@ import { Dropdown, DropdownItem } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import '../CSS/MobileMenu.css'
                         
-export default function MobileMenu({logout}) {
+export default function MobileMenu({logout, username}) {
 
     const img = <img 
                     className="rounded-full w-[60px] h-[60px] border me-[10px]"  
@@ -15,7 +15,7 @@ export default function MobileMenu({logout}) {
         className="z-10 bg-white mt-[10px] text-xl custom-width-menu"
     >
         <Dropdown.Header className="m-[10px]">
-            <p>Hello, xlnvis</p>
+            <p>Hello, {username}</p>
             <p className="ms-[10px]"></p>
             <Link to="/Profile">Profile</Link>
         </Dropdown.Header>

@@ -1,15 +1,18 @@
-import { workoutData } from "../tempData"
+import { useState, useEffect } from "react"
+import { getAllWorkouts } from "../ApiServices/ApiCalls";
 
 export default function Workouts() {
+    const [workouts, setWorkouts] = useState([])
 
-    const workoutElems = workoutData.map(item => {
-        return (
-            <div key={item.id}></div>
-        )
-    })
+    //useEffect to get all of the users workout data
+    useEffect(() => {
+        getAllWorkouts();
+    }, [])
+
+    
 
     return (
-        <div className="dashboard-wrapper border">
+        <div className="dashboard-wrapper">
             {/* header */}
             <div className="flex items-center justify-between h-[100px]">
                 <p className="text-4xl ms-[20px]">Your Workouts</p>
@@ -18,7 +21,6 @@ export default function Workouts() {
                 </div>
             </div>
             {/* header for table */}
-            {workoutElems}
         </div>
     )
 }

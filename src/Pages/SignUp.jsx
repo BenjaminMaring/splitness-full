@@ -76,7 +76,7 @@ export default function Login() {
         if (data.success == false) {
             console.log(data.err);
         } else {
-            navigate("/dashboard");
+            navigate("/Dashboard");
         }
         //if the credentials are correct, save the jwt token to a cookie that expires in a week
         // if (data.success === true) {

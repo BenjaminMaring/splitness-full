@@ -2,18 +2,15 @@ import { useState, useEffect } from "react";
 import { workoutData } from '../tempData';
 import { useOutletContext } from "react-router-dom";
 import { getRecentWorkouts } from "../ApiServices/ApiCalls";
+import { Link } from "react-router-dom";
+import BmrChart from "../Components/BmrChart";
 import '../CSS/conic-loading.css'
 import '../CSS/background-gradients.css'
 import '../CSS/sidebar.css'
-import BmrChart from "../Components/BmrChart";
-
-
 
 export default function Dashboard() {
     const [index, setIndex] = useState(7);
     const [recentWorkouts, setRecentWorkouts] = useState([]);
-
-    
     
     //use effect to call hellper function that retrieves info for recent workouts
     useEffect(() => {
@@ -39,12 +36,28 @@ export default function Dashboard() {
         setIndex(num);
     }
 
-    const workoutElems = workoutData.map(item => {
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      };
+
+    //for navigate to the workout page and passing the workout_id
+    const goToWorkout = workout_id => {
+
+    }
+
+    //create the workout elems to display
+    const recentElems = recentWorkouts.map(item => {
+
+        let date = new Date(item.last_edited);
+        date = date.toLocaleDateString('en-US', options);
+
         return (
-            <div key={item.id} className="flex justify-between items-center m-[20px] p-[10px] shadow-lg blue-gradient rounded">
-                <p className="text-3xl sm:text-xl text-white">{item.name}</p>
-                <p className="text-mg text-white">{item.excersizeCount} Excersizes</p>
-            </div>
+            <button key={item.workout_id} className="flex justify-between items-center m-[20px] p-[10px] shadow-lg blue-gradient rounded w-[90%]">
+                <p className="text-3xl sm:text-xl text-white">{item.workout_name}</p>
+                <p className="text-mg text-white">{date}</p>
+            </button>
         )
     })
 
@@ -148,9 +161,19 @@ export default function Dashboard() {
                 <div className="w-[370px] dashboard-component-bg rounded mb-[10px]">
                     <div className="flex justify-between items-end m-[20px]">
                         <p className="text-4xl font-medium text-text">Your Workouts</p>
-                        <p className="text-xl">See All</p>
+                        <Link className="text-xl" to="/Dashboard/Workouts">See All</Link>
                     </div>
-                    {workoutElems}
+                    {recentWorkouts.length > 0 ? recentElems : 
+                        <div className="w-[100%] mt-[50px] mb-[50px] flex items-center justify-center">
+                            <div className="flex flex-col items-center">
+                                <p className="text-2xl text-gray-900">No Current Workouts</p>
+                                <button className="flex items-center  mt-[30px]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 32 32"><path fill="black" d="M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13s13-5.832 13-13S23.168 3 16 3m0 2c6.087 0 11 4.913 11 11s-4.913 11-11 11S5 22.087 5 16S9.913 5 16 5m-1 5v5h-5v2h5v5h2v-5h5v-2h-5v-5z"></path></svg>
+                                    <p className="text-2xl ml-[10px]">New Workout</p>
+                                </button>
+                            </div>
+                        </div>
+                    }
                 </div>
                 {/* BMR Calculator section */}
                 <div className="w-[370px] dashboard-component-bg rounded mb-[10px]">

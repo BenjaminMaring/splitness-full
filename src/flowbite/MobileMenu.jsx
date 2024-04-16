@@ -12,7 +12,7 @@ export default function MobileMenu({logout, username}) {
 
     return (
     <Dropdown label="" renderTrigger={() => img} 
-        className="z-10 bg-white mt-[10px] text-xl custom-width-menu"
+        className="z-10 bg-white mt-[10px] text-xl min-w-[150px] w-[200px] max-w-[300px]"
     >
         <Dropdown.Header className="m-[10px]">
             <p>Hello, {username}</p>
@@ -20,7 +20,7 @@ export default function MobileMenu({logout, username}) {
             <Link to="/Profile">Profile</Link>
         </Dropdown.Header>
         <DropdownItem className="w-[100%] mb-[20px]">
-            <div className="w-[100%] menu-divider"></div>
+            <div className="w-[100%] border-b"></div>
         </DropdownItem>
         <Dropdown.Divider />
         <Dropdown.Item className="mb-[10px] ps-[10px]">
@@ -39,14 +39,12 @@ export default function MobileMenu({logout, username}) {
             <Link to="/dashboard/workouts" className="text-xl">Excersize Tracker</Link>
         </Dropdown.Item>
         <DropdownItem className="w-[100%]">
-            <div className="w-[100%] menu-divider"></div>
+            <div className="w-[100%] border-b"></div>
         </DropdownItem>
         <Dropdown.Item className="m-[10px]">
-            
-                <div onClick={logout} className="w-[100%]">
-                    <p className="text-xl text-left">Logout</p>
-                </div>
-           
+            <div onClick={logout} className="w-[100%]">
+                <p className="text-xl text-left">Logout</p>
+            </div>
         </Dropdown.Item>
     </Dropdown>
     );

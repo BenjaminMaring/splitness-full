@@ -41,10 +41,10 @@ export const getAllWorkouts = async () => {
     )
          
     const res = await workouts.json();
-    console.log(res)
+    
     if (res.success) {
         return res.data;
     } else {
-        return [];
+        return "here";
     }
 }

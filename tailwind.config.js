@@ -18,7 +18,7 @@ export default {
       text: "#0F0F0F",
       soft: "#EBEBEB",
       dark: "#1e1e1e"
-    },
+    }
   },
   plugins: [],
 }

@@ -4,13 +4,14 @@ import Login from './Pages/Login'
 import SignUp from './Pages/SignUp'
 import Dashboard from './Pages/Dashboard'
 import Workouts from './Pages/Workouts'
+import WorkoutDoc from './Pages/WorkoutDoc'
 
 
 
 function App() {
   
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-hidden h-[100vh]">
       <BrowserRouter >
         <Routes >
           <Route path="/" element={<Login />}/>
@@ -19,6 +20,7 @@ function App() {
             <Route index element={<Dashboard />}/>
             <Route path="workouts" element={<Workouts/>}/>
           </Route>
+          <Route path="workout/:workout_id" element={<WorkoutDoc />} />
         </Routes>
       </BrowserRouter>
     </div>

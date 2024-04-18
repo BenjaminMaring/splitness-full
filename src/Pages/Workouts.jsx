@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, createContext } from "react"
 import { getAllWorkouts } from "../ApiServices/ApiCalls";
 import Modal from "../flowbite/Modal";
 import WorkoutSettings from "../flowbite/WorkoutSettings";
 import { useNavigate } from "react-router-dom";
+
+export const getWorkoutsContext = createContext()
 
 export default function Workouts() {
     const [workouts, setWorkouts] = useState([])
@@ -61,7 +63,9 @@ export default function Workouts() {
                     <button className="blue-gradient rounded text-2xl text-white p-[5px]">Create</button>
                 </div>
             </div>
-            {workoutElems}
+            <getWorkoutsContext.Provider value={handleGetAllWorkouts}>
+                {workoutElems}
+            </getWorkoutsContext.Provider>
         </div>
     )
 }

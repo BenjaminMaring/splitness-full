@@ -1,8 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { deleteWorkout } from '../ApiServices/ApiCalls';
+import { useNavigate } from 'react-router-dom'
+import { getWorkoutsContext } from '../pages/Workouts';
 
 export default function WorkoutSettings({ workoutData }) {
     const [selected, setSelected] = useState(0);
     const [copied, setCopied] = useState(false);
+
+    const handleGetAllWorkouts = useContext(getWorkoutsContext);
+
+    const navigate = useNavigate();
 
     //whenever the selected value changes, reset the copied state
     useEffect(() => {
@@ -20,6 +27,15 @@ export default function WorkoutSettings({ workoutData }) {
     const handleCopyButton = () => {
         navigator.clipboard.writeText(`http://localhost:5173/Workout/${workoutData.workout_id}`);
         setCopied(true);
+    }
+
+    const handleDelete = async () => {
+        const res = await deleteWorkout(workoutData.workout_id);
+        console.log(res);
+        if (res.success) {
+           handleGetAllWorkouts();
+        }
+        // navigate('/dashboard/workouts')
     }
 
     return (
@@ -66,6 +82,15 @@ export default function WorkoutSettings({ workoutData }) {
                 </div>
             </div>
             : null}
+            {selected === 1 ? 
+                <div className=" h-[200px] flex flex-col text-xl items-center justify-evenly">
+                    <button className="bg-red text-white p-[10px] rounded"
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </button>
+                </div>
+            : null }
         </div>
     )
 }
